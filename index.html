@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101221">
+  <meta name="description" content="イラストを完成させて、隠されたメッセージを解き明かす。3×3のスライドパズル。">
+  <title>vonjovi-game</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101221'/%3E%3Cpath d='M7 7h8v8H7zm10 0h8v8h-8zM7 17h8v8H7z' fill='%23d6b97b'/%3E%3C/svg%3E">
+  <style>
+    :root{color-scheme:dark;--bg:#101221;--panel:#191d30;--ink:#f3f1ec;--muted:#a9acc0;--gold:#dfc38c;--border:#ffffff20;--ratio:1055/1491}
+    *{box-sizing:border-box} [hidden]{display:none!important}
+    body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 50% 32%,#26315366 0,transparent 57%),radial-gradient(ellipse at 8% 80%,#71375122,transparent 42%),var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif}
+    button,textarea{font:inherit}button,a{-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:5px}button{cursor:pointer}button:disabled{cursor:default}
+    .site-header{display:flex;align-items:center;justify-content:center;gap:12px;padding:27px 20px 0}
+    .mark{width:21px;height:21px;display:grid;grid-template-columns:1fr 1fr;gap:3px;transform:rotate(-6deg)}.mark i{background:var(--gold);border-radius:1px}.mark i:last-child{background:transparent;border:1px solid #dfc38c44}
+    h1{margin:0;font:500 28px/1.3 Georgia,"Times New Roman",serif;letter-spacing:.015em}
+    main{width:100%;padding:16px 20px 40px;text-align:center}
+    .instructions{margin:0 auto 19px;color:var(--muted);font-size:14px}.instructions span{display:inline-block}
+    .game{width:min(100%,410px,max(230px,calc((100svh - 310px) * var(--image-ratio,.70758))));margin:auto}
+    .game-meta{display:flex;align-items:center;justify-content:space-between;margin:0 2px 11px;color:var(--muted);font-size:14px;gap:12px}.grid-label{letter-spacing:.13em}.move-count{font-variant-numeric:tabular-nums}#moves{color:var(--ink);margin-left:7px}
+    .frame{padding:7px;border:1px solid #dfc38c48;border-radius:12px;background:#0a0c17;box-shadow:0 18px 60px #0006,0 0 45px #b07ab00c;position:relative}
+    .board{position:relative;width:100%;aspect-ratio:var(--ratio);border-radius:6px;overflow:hidden;background:repeating-linear-gradient(135deg,#171c2c 0px,#171c2c 5px,#1a2031 5px,#1a2031 6px);isolation:isolate}
+    .tile{position:absolute;top:0;left:0;width:calc(100% / 3);height:calc(100% / 3);padding:0;border:0;border-radius:2px;background-image:url("image/gazou.png");background-size:300% 300%;background-repeat:no-repeat;box-shadow:inset 0 0 0 1px #0a0c1766;transition:transform .16s ease,filter .16s ease;will-change:transform;z-index:1}
+    .tile:not([aria-disabled="true"]):hover{filter:brightness(1.12);z-index:2}.tile:focus-visible{outline-offset:-4px;z-index:3}.tile[aria-disabled="true"]{cursor:default}
+    .tile.last{pointer-events:none;opacity:0;transition:opacity .5s ease}.board.complete .tile{box-shadow:none;border-radius:0}.board.complete .tile.last{opacity:1}
+    .loading{position:absolute;inset:0;display:grid;place-content:center;padding:24px;background:var(--panel);color:var(--muted);z-index:5;font-size:14px}
+    .controls{margin-top:20px;display:flex;justify-content:center;flex-wrap:wrap;gap:10px}.reset{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:10px 25px;min-height:46px;color:var(--ink);border:1px solid var(--border);border-radius:999px;background:#ffffff05;transition:background .2s,border-color .2s}.reset:hover{background:#ffffff0c;border-color:#ffffff44}.reset svg{width:17px;height:17px}.reset:disabled{opacity:.45}
+    .kindness{background:var(--gold);border:1px solid var(--gold);color:#171820;border-radius:999px;padding:10px 18px;min-height:46px;font-weight:650;font-size:14px}.kindness:hover{background:#eed5a4}.kindness:disabled{opacity:.55;cursor:default}.assist-help{font-size:14px;color:var(--gold);margin:12px 0 0}.board.assisting .tile{transition-duration:var(--auto-speed,50ms)}
+    .help{margin:12px 0 0;color:var(--muted);font-size:14px}.status{min-height:1.7em;margin:13px 0 0;color:var(--gold);font-size:14px}
+    .reward{max-width:680px;margin:26px auto 0;text-align:left;background:linear-gradient(145deg,#24263a,#191c2b);border:1px solid #dfc38c4d;border-radius:18px;padding:28px;animation:arrive .45s ease}
+    .reward-label{margin:0 0 7px;color:var(--gold);font-size:12px;letter-spacing:.18em}.reward h2{font-size:24px;font-weight:600;line-height:1.5;margin:0 0 8px}.reward p{margin:0 0 18px;color:#c8cad7;font-size:14px}.reward a{color:var(--gold);text-underline-offset:4px}.reward-head{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:12px}.reward-head label{font-size:14px;color:var(--muted)}
+    .copy{border:1px solid var(--gold);border-radius:8px;background:var(--gold);color:#171820;min-height:44px;padding:9px 16px;font-size:14px;font-weight:650}.copy:hover{background:#eed5a4}.prompt{width:100%;height:300px;resize:vertical;display:block;border:1px solid var(--border);border-radius:8px;background:#101321;color:#e0e2ec;padding:18px;line-height:1.85;font-size:14px;overflow-wrap:anywhere}.copy-feedback{min-height:1.7em;margin-top:10px!important;margin-bottom:0!important;color:var(--gold)!important}
+    @keyframes arrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @media(min-height:800px) and (min-width:600px){.site-header{padding-top:32px}main{padding-top:18px}}
+    @media(max-width:480px){.site-header{padding-top:22px}h1{font-size:26px}main{padding:14px 18px 30px}.game{max-width:350px}.reward{padding:21px 18px}.reward-head{align-items:flex-start;flex-direction:column;gap:10px}.copy{width:100%}.instructions{font-size:14px;margin-bottom:17px}.help{font-size:14px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <header class="site-header"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><h1>vonjovi-game</h1></header>
+  <main>
+    <p class="instructions"><span>ピースを動かして、1枚のイラストに。</span><br><span>完成すると・・・</span></p>
+    <section class="game" aria-label="3×3スライドパズル">
+      <div class="game-meta"><span class="grid-label">3 × 3 PUZZLE</span><span class="move-count">手数 <output id="moves">0</output></span></div>
+      <div class="frame"><div id="board" class="board" role="group" aria-label="パズル盤面。空いているマスの隣のピースを動かせます。"><div id="loading" class="loading" role="status">イラストを読み込んでいます…</div></div></div>
+      <div class="controls"><button id="reset" class="reset" type="button" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg>リセット</button><button id="kindness" class="kindness" type="button" aria-describedby="assist-help" disabled>超やさしさボタン</button></div>
+      <p id="assist-help" class="assist-help">難しいときは押してね。<br>あと5手のところまで進めるよ！</p>
+      <p class="help">空きマスの隣をタップ・クリック<br>キーボードの矢印キーでも動かせます</p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <button id="retry" class="reset" type="button" hidden>解読コードを再読み込み</button>
+    </section>
+    <section id="reward" class="reward" aria-labelledby="reward-title" hidden>
+      <div class="reward-label">PUZZLE COMPLETE</div>
+      <h2 id="reward-title" tabindex="-1">完成！ 次は、隠されたメッセージへ。</h2>
+      <p><a href="image/gazou.png" download="gazou.png">解読用の画像を保存</a>して、下の文章と一緒にAIへ渡してください。</p>
+      <div class="reward-head"><label for="prompt">解読コード（プロンプト）</label><button id="copy" class="copy" type="button">解読コードをコピー</button></div>
+      <textarea id="prompt" class="prompt" readonly spellcheck="false" aria-label="解読コード（プロンプト）"></textarea>
+      <p id="copy-feedback" class="copy-feedback" role="status" aria-live="polite"></p>
+    </section>
+    <noscript><p>このパズルを遊ぶには、ブラウザーのJavaScriptを有効にしてください。</p></noscript>
+  </main>
+  <script id="puzzle-model">
+    const GameModel = (() => {
+      const solved = () => Array.from({length:9},(_,i)=>(i+1)%9);
+      const adjacent = (a,b) => Math.abs(Math.floor(a/3)-Math.floor(b/3))+Math.abs(a%3-b%3)===1;
+      const isSolved = cells => cells.every((n,i)=>n===(i+1)%9);
+      function move(cells,tile){
+        const at=cells.indexOf(tile),gap=cells.indexOf(0);
+        if(!Number.isInteger(tile)||tile<1||tile>8||at<0||!adjacent(at,gap))return false;
+        [cells[at],cells[gap]]=[cells[gap],cells[at]];return true;
+      }
+      function newGame(){
+        let cells,history;
+        do{
+          cells=solved();history=[];let previous=-1;
+          for(let step=0;step<24;step++){
+            const gap=cells.indexOf(0),options=cells.map((_,i)=>i).filter(i=>i!==previous&&adjacent(i,gap));
+            const next=options[Math.floor(Math.random()*options.length)];
+            history.push(cells[next]);
+            [cells[gap],cells[next]]=[cells[next],cells[gap]];previous=gap;
+          }
+        }while(cells.reduce((sum,n,i)=>sum+(n?Math.abs(Math.floor((n-1)/3)-Math.floor(i/3))+Math.abs((n-1)%3-i%3):0),0)<6);
+        return {cells,history};
+      }
+      const shuffle=()=>newGame().cells;
+      let nearGoal;
+      function helpPlan(cells,history){
+        // Exact shortest distances for the small neighborhood of the goal.
+        if(!nearGoal){
+          const start=solved(),queue=[start];nearGoal=new Map([[start.join(','),0]]);
+          for(let q=0;q<queue.length;q++){
+            const state=queue[q],depth=nearGoal.get(state.join(','));
+            if(depth===5)continue;
+            const gap=state.indexOf(0);
+            for(let at=0;at<state.length;at++)if(adjacent(at,gap)){
+              const next=[...state];move(next,state[at]);const key=next.join(',');
+              if(!nearGoal.has(key)){nearGoal.set(key,depth+1);queue.push(next);}
+            }
+          }
+        }
+        const state=[...cells],plan=[];
+        if(nearGoal.get(state.join(','))===5)return plan;
+        // Reverse the actual legal history. Stop as soon as the goal is exactly
+        // five moves away; this does not require solving an arbitrary 15-puzzle.
+        for(let i=history.length-1;i>=0;i--){
+          if(!move(state,history[i]))throw new Error('Invalid puzzle history');
+          plan.push(history[i]);
+          if(nearGoal.get(state.join(','))===5)return plan;
+        }
+        if(!isSolved(state))throw new Error('Puzzle history does not reach the goal');
+        // Also handles pressing help when already fewer than five moves away.
+        for(const tile of [8,7,4,5,6]){move(state,tile);plan.push(tile);}
+        if(nearGoal.get(state.join(','))!==5)throw new Error('Invalid help target');
+        return plan;
+      }
+      return {solved,adjacent,isSolved,move,shuffle,newGame,helpPlan};
+    })();
+  </script>
+  <script id="puzzle-ui">
+    (()=>{
+      const $=id=>document.getElementById(id),board=$('board'),reward=$('reward'),prompt=$('prompt');
+      let cells=[],moves=0,ready=false,complete=false,epoch=0,rewardRequest=null,history=[],assisting=false;
+      const tiles=[];
+      for(let tile=1;tile<=9;tile++){
+        const el=document.createElement(tile===9?'div':'button');
+        el.className='tile'+(tile===9?' last':'');
+        el.style.backgroundPosition=`${((tile-1)%3)*100/2}% ${Math.floor((tile-1)/3)*100/2}%`;
+        if(tile<9){el.type='button';el.addEventListener('click',()=>play(tile));}
+        else el.setAttribute('aria-hidden','true');
+        board.append(el);tiles.push(el);
+      }
+      function render(){
+        const gap=cells.indexOf(0);
+        tiles.forEach((el,i)=>{
+          const pos=i===8?8:cells.indexOf(i+1);
+          el.style.transform=`translate(${(pos%3)*100}%,${Math.floor(pos/3)*100}%)`;
+          if(i<8){
+            const allowed=ready&&!complete&&!assisting&&GameModel.adjacent(pos,gap);
+            el.setAttribute('aria-disabled',String(!allowed));
+            el.setAttribute('aria-label',`ピース${i+1}、${Math.floor(pos/3)+1}行${pos%3+1}列${allowed?'、移動できます':''}`);
+            el.disabled=!ready||complete||assisting;
+          }
+        });
+        $('moves').textContent=String(moves);board.classList.toggle('complete',complete);
+        board.classList.toggle('assisting',assisting);$('kindness').disabled=!ready||complete||assisting;
+        $('kindness').textContent=assisting?'自動で移動しています…':'超やさしさボタン';
+      }
+      function reset(){
+        if(!ready)return;
+        epoch++;rewardRequest?.abort();rewardRequest=null;const game=GameModel.newGame();cells=game.cells;history=game.history;assisting=false;moves=0;complete=false;reward.hidden=true;prompt.value='';$('retry').hidden=true;
+        $('copy-feedback').textContent='';$('copy').textContent='解読コードをコピー';
+        $('status').textContent='';render();
+      }
+      function play(tile){
+        if(!ready||complete||assisting||!GameModel.move(cells,tile))return false;
+        record(tile);
+        moves++;complete=GameModel.isSolved(cells);render();
+        if(complete){
+          $('status').textContent=`${moves}手で完成！ 解読コードを開いています…`;
+          void revealReward([...cells],epoch);
+        }
+        return true;
+      }
+      function record(tile){
+        if(history[history.length-1]===tile)history.pop();else history.push(tile);
+      }
+      async function assist(){
+        if(!ready||complete||assisting)return;
+        const requestEpoch=epoch;
+        try{
+          const plan=GameModel.helpPlan(cells,history);
+          assisting=true;$('status').textContent='あと5手のところまで、自動で進めています。';render();
+          const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const delay=reduced?0:Math.max(16,Math.min(90,5000/Math.max(1,plan.length)));
+          board.style.setProperty('--auto-speed',delay+'ms');
+          for(const tile of plan){
+            if(requestEpoch!==epoch)return;
+            if(!GameModel.move(cells,tile))throw new Error('Automatic move failed');
+            record(tile);render();
+            await new Promise(resolve=>setTimeout(resolve,delay));
+          }
+          if(requestEpoch!==epoch)return;
+          assisting=false;render();$('status').textContent='あと5手で完成する配置にしたよ！';
+        }catch{
+          if(requestEpoch!==epoch)return;
+          assisting=false;render();$('status').textContent='自動移動できませんでした。リセットして、もう一度お試しください。';
+        }
+      }
+      async function revealReward(solution,requestEpoch){
+        try{
+          if(!GameModel.isSolved(solution))return;
+          rewardRequest?.abort();
+          const request=new AbortController();rewardRequest=request;$('retry').hidden=true;
+          const response=await fetch('prompt.txt',{signal:request.signal,cache:'no-store'});
+          if(!response.ok)throw new Error('Prompt could not be loaded');
+          const text=await response.text();
+          if(!text.trim())throw new Error('Prompt is empty');
+          if(requestEpoch!==epoch||!complete)return;
+          prompt.value=text;reward.hidden=false;
+          $('status').textContent=`${moves}手で完成しました！`;
+          $('reward-title').focus({preventScroll:true});
+          reward.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+        }catch{
+          if(requestEpoch!==epoch||!complete)return;
+          prompt.value='';reward.hidden=true;
+          $('status').textContent='解読コードを読み込めませんでした。通信状態を確認して再読み込みしてください。';
+          $('retry').hidden=false;
+        }
+      }
+      $('retry').addEventListener('click',()=>{if(complete)void revealReward([...cells],epoch);});
+      $('reset').addEventListener('click',reset);
+      $('kindness').addEventListener('click',()=>void assist());
+      document.addEventListener('keydown',event=>{
+        if(!ready||complete||assisting||event.altKey||event.ctrlKey||event.metaKey||['TEXTAREA','INPUT','SELECT'].includes(event.target.tagName))return;
+        const offset={ArrowUp:3,ArrowDown:-3,ArrowLeft:1,ArrowRight:-1}[event.key];
+        if(offset===undefined)return;
+        event.preventDefault();const gap=cells.indexOf(0),from=gap+offset;
+        if(from>=0&&from<9&&GameModel.adjacent(gap,from))play(cells[from]);
+      });
+      $('copy').addEventListener('click',async()=>{
+        if(!complete||!prompt.value)return;
+        const copyEpoch=epoch;let copied=false;
+        try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(prompt.value);copied=true;}}catch{}
+        if(copyEpoch!==epoch)return;
+        if(!copied){
+          prompt.focus();prompt.select();prompt.setSelectionRange(0,prompt.value.length);
+          try{copied=document.execCommand('copy');}catch{}
+        }
+        $('copy-feedback').textContent=copied?'コピーしました。画像と一緒にAIへ渡してください。':'文章を選択しました。長押し、または Ctrl+C / ⌘C でコピーしてください。';
+        $('copy').textContent=copied?'コピーしました':'選択した文章をコピー';
+      });
+      const source=new Image();
+      source.onload=()=>{
+        board.style.aspectRatio=`${source.naturalWidth} / ${source.naturalHeight}`;
+        document.documentElement.style.setProperty('--image-ratio',source.naturalWidth/source.naturalHeight);
+        ready=true;$('loading').hidden=true;$('reset').disabled=false;reset();
+      };
+      source.onerror=()=>{$('loading').textContent='イラストを読み込めませんでした。ページを再読み込みしてください。';};
+      source.src='image/gazou.png';
+      // Agent controls use exactly the same move and reset actions as the UI.
+      const context=document.modelContext;
+      if(context?.registerTool){
+        const lifecycle=new AbortController();
+        const snapshot=()=>({ready,cells:[...cells],moves,complete,assisting});
+        const schema={type:'object',properties:{},additionalProperties:false};
+        const registrations=[
+          {name:'get_puzzle_state',description:'Read the visible 3×3 puzzle. Cells are row-major, 0 is the empty cell.',inputSchema:schema,annotations:{readOnlyHint:true},execute:()=>snapshot()},
+          {name:'move_puzzle_tile',description:'Move one tile adjacent to the empty cell, like clicking that tile.',inputSchema:{type:'object',properties:{tile:{type:'integer',minimum:1,maximum:8}},required:['tile'],additionalProperties:false},annotations:{readOnlyHint:false},execute:input=>{
+            if(!input||Object.keys(input).some(k=>k!=='tile')||!Number.isInteger(input.tile)||input.tile<1||input.tile>8)throw new Error('tile must be an integer from 1 to 8');
+            if(!play(input.tile))throw new Error('Tile cannot move in the current state');return snapshot();}},
+          {name:'assist_puzzle',description:'Automatically make legal moves until the puzzle is exactly five moves from completion.',inputSchema:schema,annotations:{readOnlyHint:false},execute:async()=>{if(!ready||complete||assisting)throw new Error('Help is unavailable');await assist();return snapshot();}},
+          {name:'reset_puzzle',description:'Start a new solvable puzzle, reset the move count, and hide the unlocked prompt.',inputSchema:schema,annotations:{readOnlyHint:false},execute:()=>{if(!ready)throw new Error('Image is not ready');reset();return snapshot();}}
+        ];
+        for(const tool of registrations){try{Promise.resolve(context.registerTool(tool,{signal:lifecycle.signal})).catch(()=>{});}catch{}}
+        window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});
+      }
+    })();
+  </script>
+</body>
+</html>
