@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VON QUEST</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100svh;background:#080808;color:#f4f0e9;display:grid;place-items:center;font-family:system-ui,-apple-system,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;text-align:center;padding:24px}.wrap{width:min(100%,460px)}h1{font-size:clamp(2.4rem,10vw,4rem);letter-spacing:.13em;margin:0 0 24px;font-weight:800}.intro{color:#c9c5be;font-size:1rem;line-height:1.8;margin:0 0 32px}.entry{display:flex;gap:10px}input{min-width:0;flex:1;padding:15px;border:1px solid #555;border-radius:6px;background:#171717;color:white;font-size:1rem;letter-spacing:.1em;outline:none}input:focus{border-color:#e8c77a}button{padding:15px 22px;border:0;border-radius:6px;background:#e8c77a;color:#16120b;font-size:1rem;font-weight:700;cursor:pointer}button:hover{background:#f4d997}.result{min-height:80px;margin-top:30px;line-height:1.9}.error{color:#bdb5a9}.treasure{animation:appear .55s ease-out}.chest{font-size:4rem;line-height:1.4}.message{font-size:1.12rem;font-weight:700;color:#f5dc9b}@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<h1>VON QUEST</h1>
+<p class="intro">合言葉を入力すれば宝が現れるだろう</p>
+<form id="quest" class="entry">
+<input id="password" type="text" placeholder="合言葉を入力" aria-label="合言葉" autocomplete="off" spellcheck="false" required>
+<button type="submit">決定</button>
+</form>
+<div id="result" class="result" role="status" aria-live="polite"></div>
+</main>
+<script>
+const form=document.getElementById('quest');
+const input=document.getElementById('password');
+const result=document.getElementById('result');
+form.addEventListener('submit',function(event){
+ event.preventDefault();
+ if(input.value.trim()==='MARRON'){
+  result.innerHTML='<div class="treasure"><div class="chest" aria-label="宝箱">🎁🍰</div><p class="message">宝箱の中にはイチゴのショートケーキが入っていました！</p></div>';
+ }else{
+  result.innerHTML='<p class="error">合言葉が違うようだ……</p>';
+ }
+});
+</script>
+</body>
+</html>
