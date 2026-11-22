@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#874acb">
+<meta name="description"
+ content="リラボンのクリエピ2号店。参加方法をかんたん3ステップで紹介！">
+
+<title>クリエピ2号店 | 参加方法</title>
+
+<style>
+:root {
+  --purple: #874acb;
+  --purple-dark: #57318c;
+  --pink: #f46bb2;
+  --lavender: #f4edff;
+  --white: #ffffff;
+  --text: #443454;
+  --muted: #766a81;
+  --border: #e8d9f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: #fcf9ff;
+  font-family:
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    Meiryo,
+    sans-serif;
+  line-height: 1.8;
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 76px 20px 84px;
+  text-align: center;
+  color: white;
+  background: linear-gradient(
+    125deg,
+    #7041b8 0%,
+    #a75ad2 52%,
+    #f178b8 100%
+  );
+}
+
+.hero::before,
+.hero::after {
+  content: "✦";
+  position: absolute;
+  color: rgba(255,255,255,.22);
+  font-size: 110px;
+  pointer-events: none;
+}
+
+.hero::before {
+  top: -25px;
+  left: 8%;
+}
+
+.hero::after {
+  right: 7%;
+  bottom: -50px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.35;
+  letter-spacing: .04em;
+}
+
+.hero-subtitle {
+  margin: 18px 0 0;
+  font-size: 1rem;
+}
+
+/* LAYOUT */
+
+.container {
+  width: min(100% - 36px, 1000px);
+  margin: 0 auto;
+}
+
+.intro {
+  text-align: center;
+  margin: 48px auto 38px;
+}
+
+.intro h2 {
+  color: var(--purple-dark);
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  margin: 0 0 8px;
+}
+
+.intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.steps {
+  display: grid;
+  gap: 32px;
+  padding-bottom: 60px;
+}
+
+/* STEP CARD */
+
+.step {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 32px;
+  box-shadow:
+    0 12px 36px rgba(95,48,140,.06);
+}
+
+.step-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.step-number {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    var(--purple),
+    var(--pink)
+  );
+  color: white;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.step-heading small {
+  display: block;
+  color: var(--pink);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.step-heading h2 {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--purple-dark);
+}
+
+/* IMAGE AND TEXT */
+
+.step-content {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.illustration {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 2px dashed #c7a5e9;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    #f4eaff,
+    #ffe7f5
+  );
+  color: var(--purple);
+  text-align: center;
+}
+
+.illustration img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.image-placeholder {
+  padding: 20px;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.explanation {
+  font-size: .96rem;
+}
+
+.explanation p {
+  margin: 0 0 16px;
+}
+
+.explanation p:last-child {
+  margin-bottom: 0;
+}
+
+.highlight {
+  color: var(--purple-dark);
+  font-weight: 900;
+  background: linear-gradient(
+    transparent 65%,
+    #ffd4ec 65%
+  );
+}
+
+/* WEEKLY THEME */
+
+.theme {
+  margin-top: 26px;
+  padding: 22px;
+  border-radius: 20px;
+  background: var(--lavender);
+  border: 1px solid var(--border);
+}
+
+.theme h3 {
+  margin: 0 0 14px;
+  color: var(--purple-dark);
+  font-size: 1.08rem;
+}
+
+.theme-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 100px;
+  border: 2px dashed #c7a5e9;
+  border-radius: 14px;
+  background: white;
+  text-align: center;
+  padding: 16px;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.theme-placeholder img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* STEP 2 SUBSTEPS */
+
+.step2-list {
+  display: grid;
+  gap: 36px;
+}
+
+.step2-item {
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.step2-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.step2-subheading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.step2-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--purple),
+    var(--pink)
+  );
+  font-size: .85rem;
+  font-weight: 900;
+}
+
+.step2-subheading h3 {
+  margin: 0;
+  color: var(--purple-dark);
+  font-size: 1.1rem;
+}
+
+/* FINISH */
+
+.finish {
+  text-align: center;
+  padding: 48px 20px 65px;
+  background: linear-gradient(
+    180deg,
+    #f8f0ff,
+    #ffeef8
+  );
+}
+
+.finish h2 {
+  margin: 0 0 12px;
+  color: var(--purple-dark);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.finish p {
+  margin: 0;
+  color: var(--muted);
+}
+
+footer {
+  padding: 22px;
+  text-align: center;
+  color: #897996;
+  font-size: .78rem;
+  background: white;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+  .hero {
+    padding: 56px 18px 62px;
+  }
+
+  .container {
+    width: min(100% - 28px, 1000px);
+  }
+
+  .intro {
+    margin: 36px auto 28px;
+  }
+
+  .steps {
+    gap: 22px;
+    padding-bottom: 42px;
+  }
+
+  .step {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .step-heading {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .step-number {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    font-size: 1.25rem;
+  }
+
+  .step-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .explanation {
+    font-size: .92rem;
+  }
+
+  .theme {
+    padding: 18px;
+    margin-top: 22px;
+  }
+
+  .step2-list {
+    gap: 28px;
+  }
+
+  .step2-item {
+    padding-bottom: 26px;
+  }
+
+  .step2-subheading h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+
+<header class="hero">
+  <p class="eyebrow">LIRA × BON PRESENTS</p>
+
+  <h1>
+    クリエピ2号店<br>
+    参加方法
+  </h1>
+
+  <p class="hero-subtitle">
+    つくって、投稿して、みんなで楽しもう！
+  </p>
+</header>
+
+<main class="container">
+
+  <div class="intro">
+    <h2>参加はかんたん3ステップ！</h2>
+    <p>はじめての方も気軽に参加してね♪</p>
+  </div>
+
+  <div class="steps">
+
+    <!-- =====================
+         STEP 1
+    ====================== -->
+
+    <section class="step" id="step1">
+
+      <div class="step-heading">
+        <div class="step-number">01</div>
+        <div>
+          <small>STEP 1</small>
+          <h2>イラストをつくろう！</h2>
+        </div>
+      </div>
+
+      <div class="step-content">
+
+        <div class="illustration">
+          <img
+            src="images/step1.png"
+            alt="イラストをつくろう！"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+          <span class="image-placeholder" style="display:none;">
+            🎨<br>
+            ここにイラストを貼る<br>
+            STEP 1
+          </span>
+        </div>
+
+        <div class="explanation">
+          <p>
+            <span class="highlight">
+              基本的にどんなイラストでもOK！
+            </span>
+          </p>
+          <p>
+            毎週テーマも用意しているので、
+            テーマに沿ったイラストを
+            つくるのも楽しいかも♪
+          </p>
+        </div>
+
+      </div>
+
+      <div class="theme">
+        <h3>✦ 今週のテーマはこちら！</h3>
+
+        <div class="theme-placeholder">
+          ここに今週のテーマを表示する
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================
+         STEP 2
+    ====================== -->
+
+    <section class="step" id="step2">
+
+      <div class="step-heading">
+        <div class="step-number">02</div>
+        <div>
+          <small>STEP 2</small>
+          <h2>イラストを投稿しよう！</h2>
+        </div>
+      </div>
+
+      <div class="step2-list">
+
+        <!-- STEP 2-1 -->
+
+        <div class="step2-item">
+
+          <div class="step2-subheading">
+            <span class="step2-label">2-1</span>
+            <h3>コメント欄を開こう！</h3>
+          </div>
+
+          <div class="step-content">
+
+            <div class="illustration">
+              <img
+                src="images/step2-1.png"
+                alt="Xスペースのコメント欄を開く"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <span class="image-placeholder" style="display:none;">
+                💬<br>
+                ここにイラストを貼る<br>
+                STEP 2-1
+              </span>
+            </div>
+
+            <div class="explanation">
+              <p>
+                スペース画面の
+                <span class="highlight">
+                  吹き出しマーク
+                </span>
+                をタップ！
+              </p>
+
+              <p>
+                コメント欄にある
+                <span class="highlight">
+                  「参加はこちらから！」
+                </span>
+                のイラストを開いてね！
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STEP 2-2 -->
+
+        <div class="step2-item">
+
+          <div class="step2-subheading">
+            <span class="step2-label">2-2</span>
+            <h3>返信欄を開こう！</h3>
+          </div>
+
+          <div class="step-content">
+
+            <div class="illustration">
+              <img
+                src="images/step2-2.png"
+                alt="返信をポストの入力欄を開く"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <span class="image-placeholder" style="display:none;">
+                💌<br>
+                ここにイラストを貼る<br>
+                STEP 2-2
+              </span>
+            </div>
+
+            <div class="explanation">
+              <p>
+                投稿画面の下にある
+                <span class="highlight">
+                  「返信をポスト」
+                </span>
+                をタップ！
+              </p>
+
+              <p>
+                ここから自分のイラストを
+                投稿できるよ♪
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STEP 2-3 -->
+
+        <div class="step2-item">
+
+          <div class="step2-subheading">
+            <span class="step2-label">2-3</span>
+            <h3>作品を投稿しよう！</h3>
+          </div>
+
+          <div class="step-content">
+
+            <div class="illustration">
+              <img
+                src="images/step2-3.png"
+                alt="イラストとハッシュタグを付けて投稿する"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <span class="image-placeholder" style="display:none;">
+                🖼️<br>
+                ここにイラストを貼る<br>
+                STEP 2-3
+              </span>
+            </div>
+
+            <div class="explanation">
+              <p>
+                自分のイラストを添付して、
+                コメントを書こう！
+              </p>
+
+              <p>
+                ハッシュタグ
+                <span class="highlight">
+                  #クリエピ
+                </span>
+                も忘れずに♪
+              </p>
+
+              <p>
+                最後に
+                <span class="highlight">
+                  「ポスト」
+                </span>
+                を押せば参加完了！
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================
+         STEP 3
+    ====================== -->
+
+    <section class="step" id="step3">
+
+      <div class="step-heading">
+        <div class="step-number">03</div>
+        <div>
+          <small>STEP 3</small>
+          <h2>みんなのイラストを見よう！</h2>
+        </div>
+      </div>
+
+      <div class="step-content">
+
+        <div class="illustration">
+          <img
+            src="images/step3.png"
+            alt="返信を最新順に並び替える"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+          <span class="image-placeholder" style="display:none;">
+            ✨<br>
+            ここにイラストを貼る<br>
+            STEP 3
+          </span>
+        </div>
+
+        <div class="explanation">
+          <p>
+            「参加はこちらから！」の
+            返信欄には、
+            みんなの作品が集まっているよ！
+          </p>
+
+          <p>
+            返信を
+            <span class="highlight">
+              「最新順」
+            </span>
+            に並び替えてね！
+          </p>
+
+          <p>
+            投稿された順番に
+            作品を見ていくよ♪
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- FINISH -->
+
+<section class="finish">
+  <h2>これで準備OK！ 🎉</h2>
+  <p>みんなでクリエピを楽しもう！</p>
+</section>
+
+<footer>
+  リラボンのクリエピ2号店
+</footer>
+
+</body>
+</html>
